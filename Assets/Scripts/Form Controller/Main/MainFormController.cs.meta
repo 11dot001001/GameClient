@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 913bc87f4e3890f468fc54631b9c97f7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - cam: {instanceID: 0}
+  - connectingPanel: {instanceID: 0}
+  - disconectingPanel: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
