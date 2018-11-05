@@ -8,24 +8,15 @@ namespace Assets.Scripts.Managers
 {
     public static class MainManager
     {
-        private static MainFormController mainForm;
+        private static MainFormController _mainForm;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainManager"/> class.
         /// </summary>
-        public static void Initialize(MainFormController mainFormController)
-        {
-            mainForm = mainFormController;
-        }
+        public static void Initialize(MainFormController mainFormController) => _mainForm = mainFormController;
 
-        public static void SetActivePanel(MainFormPanel mainFormPanel)
-        {
-            mainForm.ActivePanel = mainFormPanel;
-        }
+        public static void SetActivePanel(MainFormPanel mainFormPanel) => _mainForm.ActivePanel = mainFormPanel;
 
-        public static void TryToConnect()
-        {
-            Main.Start();
-        }
+        public static void TryToConnect() => Main.Start();
     }
 }
