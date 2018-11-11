@@ -31,11 +31,11 @@ public static class GameController
 
         for (int i = 0; i < bacterium.BacteriumModel.Roads.First(x => x.Key == virusGroup.EndId).Value.Roads.Count; i++)
         {
-            if(bacterium.BacteriumModel.Roads.First(x => x.Key == virusGroup.EndId).Value.Roads[i].EaseFactor == 1f)
-            {
+            //if(bacterium.BacteriumModel.Roads.First(x => x.Key == virusGroup.EndId).Value.Roads[i].EaseFactor == 1f)
+            //{
                 Virus virus = Object.Instantiate(_game.VirusPrefab, bacterium.transform.position, Quaternion.identity).GetComponent<Virus>();
                 virus.Initialize(bacterium.BacteriumModel.Roads.First(x => x.Key == virusGroup.EndId).Value.Roads[i], 1f);
-            }
+            //}
         }
     }
     public static Vector2 GetMousePosition() => _game.MousePosition;
