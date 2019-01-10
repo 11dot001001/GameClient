@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Data;
 using ClientModel.Data;
-using ClientModel.Model;
 using GameCore.Model;
 using Noname.BitConversion;
 using Noname.BitConversion.System;
@@ -35,8 +34,7 @@ public class Client : RPCClient
         DefineLocalProcedure(true, DataModel.ReceiveOtherAccount, otherAccountNullableConverter);
         DefineLocalProcedure(true, SendGameSettings, ReliableBitConverter.GetInstance(GameSettings.BitConverter));
         DefineLocalProcedure(true, MenuManager.StartGame);
-        DefineLocalProcedure(true, GameController.SendVirus, iEnumerableBacteriumId, Int32BitConverter.Instance, Int32BitConverter.Instance);
-        DefineLocalProcedure(true, GameController.SendVirusGroup, ReliableBitConverter.GetInstance(VirusGroupNet.NetworkBitConverter));
+        DefineLocalProcedure(true, GameController.SendVirusGroup, VirusGroupData.BitConverter.Instance);
     }
     protected override void InitializeRemoteProcedures()
     {

@@ -15,7 +15,7 @@ public static class Network
     public static void SignUp(string email, string password, string nickname) => _client.TCPCall(_client.SignUp, email, password, nickname);
     public static void LogIn(string email, string password) => _client.TCPCall(_client.LogIn, email, password);
     public static void FindGame() => _client.TCPCall(_client.FindGame);
-    public static void GetViruses(IEnumerable<int> bacteriumsFrom, int bacteriumTo) => _client.TCPCall(_client.RequestSendViruses, bacteriumsFrom, bacteriumTo);
+    public static void RequestSendViruses(IEnumerable<int> bacteriumsFrom, int bacteriumTo) => _client.TCPCall(_client.RequestSendViruses, bacteriumsFrom, bacteriumTo);
 
     public static void Initialize(string ipAddress, int port)
     {
