@@ -14,7 +14,7 @@ public class Game : MonoBehaviour
     public List<Bacterium> SelectedBacteriums = new List<Bacterium>();
 
     public Vector2 MousePosition => CurrentCamera.ScreenToWorldPoint(Input.mousePosition);
-    public event EventHandler ResetSelectedBacterium;
+    //public event EventHandler ResetSelectedBacterium;
 
     public void Start()
     {
@@ -33,7 +33,7 @@ public class Game : MonoBehaviour
             if (bacteriumColider != null)
             {
                 Bacterium bacterium = bacteriumColider.GetComponent<Bacterium>();
-                Network.GetViruses(SelectedBacteriums.Select(x => x.Id), bacterium.Id);
+                GameController.RequestSendViruses(SelectedBacteriums.Select(x => x.Id), bacterium.Id);
             }
             foreach (Bacterium bacterium in SelectedBacteriums)
                 bacterium.CleanLine();

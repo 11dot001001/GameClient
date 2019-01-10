@@ -36,7 +36,7 @@ public class Bacterium : MonoBehaviour
     }
     private void OnMouseEnter()
     {
-        if (_bacteriumModel.BacteriumData.Owner != OwnerType.Enemy && GameController.SelcetedMode())
+        if (_bacteriumModel.Data.Owner != OwnerType.Enemy && GameController.SelcetedMode())
         {
             MouseDown?.Invoke(this, EventArgs.Empty);
             LineRenderer.enabled = true;
@@ -70,7 +70,7 @@ public class Bacterium : MonoBehaviour
             }
         }
     }
-    private void WriteLine() => LineRenderer.SetPositions(new Vector3[] { _bacteriumModel.Position, GameController.GetMousePosition() });
+    private void WriteLine() => LineRenderer.SetPositions(new Vector3[] { _bacteriumModel.Transform.Position, GameController.GetMousePosition() });
 
     public void CleanLine()
     {

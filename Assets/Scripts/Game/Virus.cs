@@ -11,9 +11,9 @@ public class Virus : MonoBehaviour
 
     private void Move()
     {
-        if ((Vector2)transform.position == _road.Points[_roadOffset].position)
+        if ((Vector2)transform.position == _road.Points[_roadOffset].Position)
             _roadOffset++;
-        transform.position = Vector2.MoveTowards(transform.position, _road.Points[_roadOffset].position, _speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, _road.Points[_roadOffset].Position, _speed * Time.deltaTime);
     }
 
     public void Initialize(Road road, float speed)
@@ -26,7 +26,7 @@ public class Virus : MonoBehaviour
     bool _flag;
     private void Update()
     {
-        if (((Vector2)transform.position-_target.position).magnitude <0.2f)
+        if (((Vector2)transform.position-_target.Position).magnitude <0.2f)
         {
             Destroy(gameObject);
             _flag = true;
