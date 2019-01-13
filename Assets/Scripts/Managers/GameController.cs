@@ -14,19 +14,9 @@ public static class GameController
     public static void SendVirusGroup(VirusGroupData virusGroupData)
     {
         Bacterium startBacterium = _game.Bacteriums.First(x => x.Id == virusGroupData.StartBacteriumId);
-        
         Virus virus = Object.Instantiate(_game.VirusPrefab, startBacterium.transform.position, Quaternion.identity).GetComponent<Virus>();
-        virus.Initialize(startBacterium.BacteriumModel.Roads.First(x=> x.Key == virusGroupData.EndBacteriumId).Value.Roads[virusGroupData.RoadId], _virusSpeed);
-
-        //фулл обход
-        //for (int i = 0; i < startBacterium.BacteriumModel.Roads.First(x => x.Key == virusGroup.EndId).Value.Roads.Count; i++)
-        //{
-        //    //if(bacterium.BacteriumModel.Roads.First(x => x.Key == virusGroup.EndId).Value.Roads[i].EaseFactor == 1f)
-        //    //{
-        //        Virus virus = Object.Instantiate(_game.VirusPrefab, startBacterium.transform.position, Quaternion.identity).GetComponent<Virus>();
-        //        virus.Initialize(startBacterium.BacteriumModel.Roads.First(x => x.Key == virusGroup.EndId).Value.Roads[i], 1f);
-        //    //}
-        //}
+        Road road = startBacterium.BacteriumModel.Roads.First(x => x.Key == virusGroupData.EndBacteriumId).Value.Roads[virusGroupData.RoadId];
+        virus.Initialize(road, _virusSpeed);
     }
     public static Vector2 GetMousePosition() => _game.MousePosition;
     public static bool SelcetedMode() => _game.SelectedBacteriums.Count != 0;
@@ -37,7 +27,7 @@ public static class GameController
         foreach (BacteriumData bacteriumData in _bacteriums)
         {
             Bacterium current;
-            game.Bacteriums.Add(current = Object.Instantiate(game.BacteriumPrefab, bacteriumData.Transform.Position, Quaternion.identity));
+            game.Bacteriums.Add(current = Object.Instantiate(game.BacteriumPrefab, bacteriumData.Transform.Position, Quaternion.identity, game.GameField.transform));
             current.Id = id++;
             current.BacteriumModel = new BacteriumModel(_bacteriums.Count, bacteriumData);
             current.MouseDown += game.OnSelectedBacterium;

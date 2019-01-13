@@ -1,7 +1,7 @@
 ﻿using System;
 using GameCore.Enums;
-using GameCore.Model;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bacterium : MonoBehaviour
 {
@@ -12,6 +12,7 @@ public class Bacterium : MonoBehaviour
 
     public Material[] Materials;
     public LineRenderer LineRenderer;
+    public Text VirusCountText;
 
     public BacteriumModel BacteriumModel { get { return _bacteriumModel; } set { _bacteriumModel = value; } }
 
@@ -20,6 +21,7 @@ public class Bacterium : MonoBehaviour
     private void Awake() => LineRenderer = GetComponent<LineRenderer>();
     private void Update()
     {
+        VirusCountText.text = _bacteriumModel.Data.VirusCount.ToString();
         if (_isSelect)
         {
             WriteLine();
@@ -77,9 +79,5 @@ public class Bacterium : MonoBehaviour
         _isSelect = false;
         LineRenderer.enabled = false;
     }
-}
-public class BacteriumModel : BacteriumBase
-{
-    public BacteriumModel(int roadsCount, BacteriumData bacteriumData) : base(roadsCount, bacteriumData) { }
 }
 

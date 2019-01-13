@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
     public GameObject VirusPrefab;
     public Camera CurrentCamera;
     public LineRenderer LineRenderer;
+    public GameObject GameField;
 
     public List<Bacterium> Bacteriums = new List<Bacterium>();
     public List<Bacterium> SelectedBacteriums = new List<Bacterium>();

@@ -1,37 +1,37 @@
 ﻿using GameCore.Tools;
-using System.Linq;
 using UnityEngine;
 
 public class Virus : MonoBehaviour
 {
     private float _speed;
     private Road _road;
-    private int _roadOffset;
-    private WayPosition _target;
+    private float _progress;
+    private int _pointIndex;
 
-    private void Move()
+    private void FixedUpdate()
     {
-        if ((Vector2)transform.position == _road.Points[_roadOffset].Position)
-            _roadOffset++;
-        transform.position = Vector2.MoveTowards(transform.position, _road.Points[_roadOffset].Position, _speed * Time.deltaTime);
+        _progress += _speed * Time.fixedDeltaTime;
+        float currentProgress = 0f;
+        Vector2 lastPosition = _road.Points[0].Position;
+        Vector2 currentPosition = Vector2.zero;
+        float difference = 0f;
+        for (_pointIndex = 1; _pointIndex < _road.Points.Count; _pointIndex++)
+        {
+            currentPosition = _road.Points[_pointIndex].Position;
+            difference = (currentPosition - lastPosition).magnitude;
+            if (_progress < currentProgress + difference)
+                break;
+            if (_pointIndex == _road.Points.Count - 1)
+                Destroy(gameObject);
+            lastPosition = currentPosition;
+            currentProgress += difference;
+        }
+        transform.position = Vector2.Lerp(lastPosition, currentPosition, (_progress - currentProgress) / difference);
     }
 
     public void Initialize(Road road, float speed)
     {
         _road = road;
         _speed = speed;
-        _target = road.Points[road.Points.Count - 1];
-    }
-
-    bool _flag;
-    private void Update()
-    {
-        if (((Vector2)transform.position-_target.Position).magnitude <0.2f)
-        {
-            Destroy(gameObject);
-            _flag = true;
-        }
-        else if(!_flag)
-            Move();
     }
 }
