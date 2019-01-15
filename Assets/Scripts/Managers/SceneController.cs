@@ -43,4 +43,3 @@ public enum SceneCode
     Menu,
     Game
 }
-

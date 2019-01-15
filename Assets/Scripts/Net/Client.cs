@@ -34,7 +34,8 @@ public class Client : RPCClient
         DefineLocalProcedure(true, DataModel.ReceiveOtherAccount, otherAccountNullableConverter);
         DefineLocalProcedure(true, SendGameSettings, ReliableBitConverter.GetInstance(GameSettings.BitConverter));
         DefineLocalProcedure(true, MenuManager.StartGame);
-        DefineLocalProcedure(true, GameController.SendVirusGroup, VirusGroupData.BitConverter.Instance);
+        DefineLocalProcedure(true, GameManager.SendVirusGroup, VirusGroupData.BitConverter.Instance, Int32BitConverter.Instance);
+        DefineLocalProcedure(true, GameManager.SendVirusGroupArrived, Int32BitConverter.Instance, Int32BitConverter.Instance);
     }
     protected override void InitializeRemoteProcedures()
     {
@@ -49,5 +50,5 @@ public class Client : RPCClient
         RequestSendViruses = DefineRemoteProcedure(iEnumerableBacteriumId, Int32BitConverter.Instance);
     }
 
-    private void SendGameSettings(GameSettings gameSettings) => GameController.Instantiate(gameSettings);
+    private void SendGameSettings(GameSettings gameSettings) => GameManager.Instantiate(gameSettings);
 }

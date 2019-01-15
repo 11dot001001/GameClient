@@ -1,12 +1,12 @@
-﻿using System;
-using GameCore.Enums;
+﻿using GameCore.Enums;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Bacterium : MonoBehaviour
 {
-    private BacteriumModel _bacteriumModel;
-
+    private const float _bacteriumGrowthTimerInterval = 1000f;
+    private DateTime _lastBacteriumGrowth;
     private bool _isSelect;
     public int Id;
 
@@ -14,18 +14,19 @@ public class Bacterium : MonoBehaviour
     public LineRenderer LineRenderer;
     public Text VirusCountText;
 
-    public BacteriumModel BacteriumModel { get { return _bacteriumModel; } set { _bacteriumModel = value; } }
-
+    public BacteriumModel BacteriumModel { get; set; }
     public event EventHandler MouseDown;
 
-    private void Awake() => LineRenderer = GetComponent<LineRenderer>();
+    private void Awake()
+    {
+        LineRenderer = GetComponent<LineRenderer>();
+        _lastBacteriumGrowth = DateTime.Now;
+    }
     private void Update()
     {
-        VirusCountText.text = _bacteriumModel.Data.VirusCount.ToString();
+        VirusCountText.text = BacteriumModel.VirusCount.ToString();
         if (_isSelect)
-        {
             WriteLine();
-        }
     }
     private void OnMouseDown()
     {
@@ -38,7 +39,7 @@ public class Bacterium : MonoBehaviour
     }
     private void OnMouseEnter()
     {
-        if (_bacteriumModel.Data.Owner != OwnerType.Enemy && GameController.SelcetedMode())
+        if (BacteriumModel.Owner != OwnerType.Enemy && GameManager.SelcetedMode())
         {
             MouseDown?.Invoke(this, EventArgs.Empty);
             LineRenderer.enabled = true;
@@ -72,8 +73,9 @@ public class Bacterium : MonoBehaviour
             }
         }
     }
-    private void WriteLine() => LineRenderer.SetPositions(new Vector3[] { _bacteriumModel.Transform.Position, GameController.GetMousePosition() });
+    private void WriteLine() => LineRenderer.SetPositions(new Vector3[] { BacteriumModel.Transform.Position, GameManager.GetMousePosition() });
 
+    public void UpdateBacterium() => BacteriumModel.VirusCount++;
     public void CleanLine()
     {
         _isSelect = false;

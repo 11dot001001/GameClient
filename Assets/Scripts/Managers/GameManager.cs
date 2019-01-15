@@ -4,19 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public static class GameController
+public static class GameManager
 {
     private const float _virusSpeed = 1f;
     private static Game _game;
     private static List<BacteriumData> _bacteriums;
 
     public static void RequestSendViruses(IEnumerable<int> bacteriumsId, int targetID) => Network.RequestSendViruses(bacteriumsId, targetID);
-    public static void SendVirusGroup(VirusGroupData virusGroupData)
+    public static void SendVirusGroup(VirusGroupData virusGroupData, int newVirusCount)
     {
         Bacterium startBacterium = _game.Bacteriums.First(x => x.Id == virusGroupData.StartBacteriumId);
         Virus virus = Object.Instantiate(_game.VirusPrefab, startBacterium.transform.position, Quaternion.identity).GetComponent<Virus>();
         Road road = startBacterium.BacteriumModel.Roads.First(x => x.Key == virusGroupData.EndBacteriumId).Value.Roads[virusGroupData.RoadId];
+        startBacterium.BacteriumModel.VirusCount = newVirusCount;
         virus.Initialize(road, _virusSpeed);
+    } 
+    public static void SendVirusGroupArrived(int bacteriumId, int newVirusCount)
+    {
+        Bacterium bacterium = _game.Bacteriums.First(x => x.Id == bacteriumId);
+        bacterium.BacteriumModel.VirusCount = newVirusCount;
     }
     public static Vector2 GetMousePosition() => _game.MousePosition;
     public static bool SelcetedMode() => _game.SelectedBacteriums.Count != 0;

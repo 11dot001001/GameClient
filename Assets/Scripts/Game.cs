@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 using UnityEngine;
 
 public class Game : MonoBehaviour
 {
+    private const float _bacteriumGrowthTimerInterval = 1000f;
+    private Timer _bacteriumGrowthTimer;
+
     public Bacterium BacteriumPrefab;
     public GameObject VirusPrefab;
     public Camera CurrentCamera;
@@ -15,14 +19,17 @@ public class Game : MonoBehaviour
     public List<Bacterium> SelectedBacteriums = new List<Bacterium>();
 
     public Vector2 MousePosition => CurrentCamera.ScreenToWorldPoint(Input.mousePosition);
-    //public event EventHandler ResetSelectedBacterium;
 
     public void Start()
     {
-        GameController.Initialize(this);
+        GameManager.Initialize(this);
         LineRenderer = GetComponent<LineRenderer>();
+        _bacteriumGrowthTimer = new Timer(_bacteriumGrowthTimerInterval);
+        _bacteriumGrowthTimer.Elapsed += _bacteriumGrowthTimer_Elapsed; ;
+        _bacteriumGrowthTimer.Start();
     }
 
+   private void _bacteriumGrowthTimer_Elapsed(object sender, ElapsedEventArgs e) => Bacteriums.ForEach(x => x.UpdateBacterium());
     private void Update()
     {
         if (SelectedBacteriums.Count == 0)
@@ -34,7 +41,7 @@ public class Game : MonoBehaviour
             if (bacteriumColider != null)
             {
                 Bacterium bacterium = bacteriumColider.GetComponent<Bacterium>();
-                GameController.RequestSendViruses(SelectedBacteriums.Select(x => x.Id), bacterium.Id);
+                GameManager.RequestSendViruses(SelectedBacteriums.Select(x => x.Id), bacterium.Id);
             }
             foreach (Bacterium bacterium in SelectedBacteriums)
                 bacterium.CleanLine();
