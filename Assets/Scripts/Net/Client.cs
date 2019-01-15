@@ -23,8 +23,6 @@ public class Client : RPCClient
     {
         ReliableBitConverter<OwnAccount> accountNullableConverter = ReliableBitConverter.GetInstance(NullableBitConverter.GetInstance(OwnAccount.BitConverter));
         ReliableBitConverter<OtherAccount> otherAccountNullableConverter = ReliableBitConverter.GetInstance(NullableBitConverter.GetInstance(OtherAccount.BitConverter));
-        ReliableBitConverter<IEnumerable<BacteriumData>> iEnumerableBacteriumConverter = ReliableBitConverter.GetInstance(IEnumerableVariableLengthBitConverter.GetInstance(BacteriumData.BitConverter.Instance));
-        ReliableBitConverter<IEnumerable<int>> iEnumerableBacteriumId = ReliableBitConverter.GetInstance(IEnumerableVariableLengthBitConverter.GetInstance(Int32BitConverter.Instance));
 
         DefineLocalProcedure(true, AuthenticationManager.CheckEmailExistsResponse, BooleanBitConverter.Instance);
         DefineLocalProcedure(true, AuthenticationManager.CheckNickameExistsResponse, BooleanBitConverter.Instance);

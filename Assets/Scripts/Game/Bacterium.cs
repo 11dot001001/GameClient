@@ -1,4 +1,5 @@
 ﻿using GameCore.Enums;
+using GameCore.Model;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class Bacterium : MonoBehaviour
     private const float _bacteriumGrowthTimerInterval = 1000f;
     private DateTime _lastBacteriumGrowth;
     private bool _isSelect;
-    public int Id;
+    public int Id => BacteriumModel.Id;
 
     public Material[] Materials;
     public LineRenderer LineRenderer;

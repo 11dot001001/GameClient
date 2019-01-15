@@ -8,14 +8,16 @@ public static class GameManager
 {
     private const float _virusSpeed = 1f;
     private static Game _game;
-    private static List<BacteriumData> _bacteriums;
+    private static List<BacteriumData> _bacteriumsData;
+    public static RoadManager RoadManager;
 
     public static void RequestSendViruses(IEnumerable<int> bacteriumsId, int targetID) => Network.RequestSendViruses(bacteriumsId, targetID);
     public static void SendVirusGroup(VirusGroupData virusGroupData, int newVirusCount)
     {
         Bacterium startBacterium = _game.Bacteriums.First(x => x.Id == virusGroupData.StartBacteriumId);
+        Bacterium endBacterium = _game.Bacteriums.First(x => x.Id == virusGroupData.EndBacteriumId);
         Virus virus = Object.Instantiate(_game.VirusPrefab, startBacterium.transform.position, Quaternion.identity).GetComponent<Virus>();
-        Road road = startBacterium.BacteriumModel.Roads.First(x => x.Key == virusGroupData.EndBacteriumId).Value.Roads[virusGroupData.RoadId];
+        Road road = RoadManager.GetRoad(startBacterium.BacteriumModel, endBacterium.BacteriumModel, virusGroupData.RoadId);
         startBacterium.BacteriumModel.VirusCount = newVirusCount;
         virus.Initialize(road, _virusSpeed);
     } 
@@ -29,23 +31,18 @@ public static class GameManager
     public static void Initialize(Game game)
     {
         _game = game;
-        int id = 0;
-        foreach (BacteriumData bacteriumData in _bacteriums)
+        foreach (BacteriumData bacteriumData in _bacteriumsData)
         {
             Bacterium current;
             game.Bacteriums.Add(current = Object.Instantiate(game.BacteriumPrefab, bacteriumData.Transform.Position, Quaternion.identity, game.GameField.transform));
-            current.Id = id++;
-            current.BacteriumModel = new BacteriumModel(_bacteriums.Count, bacteriumData);
+            current.BacteriumModel = new BacteriumModel(bacteriumData);
             current.MouseDown += game.OnSelectedBacterium;
         }
-        for (int i = 0; i < _bacteriums.Count; i++)
-            for (int j = 0; j < _bacteriums.Count; j++)
-                if (j != i)
-                    _game.Bacteriums[i].BacteriumModel.Roads.Add(_bacteriums[j].Id, new Path(_game.Bacteriums[i].BacteriumModel, new List<Road>(new RoadManager(_game.Bacteriums[i].BacteriumModel, _game.Bacteriums[j].BacteriumModel, _game.Bacteriums.Select(x => x.BacteriumModel)).Roads)));
+        RoadManager = new RoadManager(_game.Bacteriums.Select(x=> x.BacteriumModel));
     }
     public static void Instantiate(GameSettings gameSettings)
     {
-        _bacteriums = new List<BacteriumData>(gameSettings.Bacteriums);
+        _bacteriumsData = new List<BacteriumData>(gameSettings.Bacteriums);
         MenuManager.StartGame();
     }
 }
