@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using GameCore.Tools;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Game
 {
     public class VirusGroapRoadManager
     {
-        private readonly List<Vector2> _road;
+        private readonly List<IPosition> _road;
         private readonly float _maximumDeviationAmplitude;
 
-        public VirusGroapRoadManager(List<Vector2> road, float maximumDeviationAmplitude)
+        public VirusGroapRoadManager(List<IPosition> road, float maximumDeviationAmplitude)
         {
             _road = road;
             _maximumDeviationAmplitude = maximumDeviationAmplitude;
@@ -18,7 +19,7 @@ namespace Assets.Scripts.Game
         {
             List<Vector2> newRoad = new List<Vector2>
             {
-                _road[0]
+                _road[0].Position
             };
 
             for (int roadPoint = 0; roadPoint < _road.Count - 1; roadPoint++)
