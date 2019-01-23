@@ -7,7 +7,7 @@ using UnityEngine;
 
 public static class GameManager
 {
-    private const float _virusSpeed = 1f;
+    private const float _virusSpeed = 1F;
     private static Game _game;
     private static List<BacteriumData> _bacteriumsData;
     private static List<VirusGroup> _virusGroups;
