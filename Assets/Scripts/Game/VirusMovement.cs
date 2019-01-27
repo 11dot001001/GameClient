@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using GameCore.Tools;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ public class VirusMovement : MonoBehaviour
     private float _x;
     private float _speed;
     private Vector2 _lastRoadPoint, _targetRoadPoint;
-    private List<Vector2> _road;
+    private Road _road;
     private int _lastRoadPointIndex;
 
     private void FixedUpdate()
@@ -51,7 +52,7 @@ public class VirusMovement : MonoBehaviour
     private void UpdateRotation() => transform.right = _targetRoadPoint - _lastRoadPoint;
     private void UpdateScale() => transform.localScale = new Vector3(1F + _maxScaleChangeFactor * _speed / (_maxSpeed * _speedFactor), 1F - _maxScaleChangeFactor * _speed / (_maxSpeed * _speedFactor));
 
-    public void Initialize(List<Vector2> road, float speedFactor)
+    public void Initialize(Road road, float speedFactor)
     {
         _road = road;
         _speedFactor = speedFactor;
