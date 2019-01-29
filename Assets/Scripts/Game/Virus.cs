@@ -1,11 +1,14 @@
-﻿using GameCore.Tools;
+﻿using Assets.Scripts;
+using GameCore.Tools;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Virus : MonoBehaviour
 {
-    private VirusMovement _virusMovement;
+    private VirusMovementManager _virusMovementManager;
 
-    private void Awake() => _virusMovement = GetComponent<VirusMovement>();
-    public void Initialize(Road road, float speed) => _virusMovement.Initialize(road, speed);
+    private void FixedUpdate() => _virusMovementManager.Move();
+
+    public void Initialize(IEnumerable<RoadSegmentController> roadSegments, float routeDistance, float speedFactor, float phase)
+        => _virusMovementManager = new VirusMovementManager(roadSegments, routeDistance, GetComponent<VirusMovement>(), speedFactor, phase);
 }

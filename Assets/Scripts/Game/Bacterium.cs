@@ -47,6 +47,11 @@ public class Bacterium : MonoBehaviour
             _isSelect = true;
         }
     }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, BacteriumModel.Transform.BacteriumRadius);
+    }
     private void ChangeColor(OwnerType owner)
     {
         switch (owner)
