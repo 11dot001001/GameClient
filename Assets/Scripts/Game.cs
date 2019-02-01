@@ -29,7 +29,7 @@ public class Game : MonoBehaviour
         _bacteriumGrowthTimer.Start();
     }
 
-   private void _bacteriumGrowthTimer_Elapsed(object sender, ElapsedEventArgs e) => Bacteriums.ForEach(x => x.UpdateBacterium());
+    private void _bacteriumGrowthTimer_Elapsed(object sender, ElapsedEventArgs e) => Bacteriums.ForEach(x => x.UpdateBacterium());
     private void Update()
     {
         if (SelectedBacteriums.Count == 0)
